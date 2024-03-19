@@ -1,0 +1,151 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Style Selector="StackContentView">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Padding="{TemplateBinding Padding}"
+						Background="{TemplateBinding Background}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						CornerRadius="{TemplateBinding CornerRadius}">
+          <ItemsPresenter Name="PART_ItemsPresenter"
+									ItemsPanel="{TemplateBinding ItemsPanel}" />
+        </Border>
+      </ControlTemplate>
+    </Setter>
+    <Setter Property="ItemsPanel">
+      <ItemsPanelTemplate>
+        <StackContentViewPanel></StackContentViewPanel>
+      </ItemsPanelTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="StackContentViewItem">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <ContentPresenter Name="PART_ContentPresenter"
+								  Padding="{TemplateBinding Padding}"
+								  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+								  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+								  Background="{TemplateBinding Background}"
+								  BorderBrush="{TemplateBinding BorderBrush}"
+								  BorderThickness="{TemplateBinding BorderThickness}"
+								  Content="{TemplateBinding Content}"
+								  ContentTemplate="{TemplateBinding ContentTemplate}"
+								  CornerRadius="{TemplateBinding CornerRadius}" />
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="NavigationBar">
+    <Setter Property="Template">
+      <ControlTemplate TargetType="NavigationBar">
+          <!--BorderBrush="{TemplateBinding BorderBrush}"-->
+          <!--BorderThickness="{TemplateBinding BorderThickness}"-->
+        <Border Background="{TemplateBinding Background}"
+				        Padding="{TemplateBinding Padding}"
+				        Margin="{TemplateBinding Margin}"                
+				        MinHeight="35">
+          <Grid RowDefinitions="Auto,*">
+            <Border Grid.Row="0"
+						        Height="{TemplateBinding TopSafeSpace}"
+						        IsVisible="{TemplateBinding ApplyTopSafePadding}">
+            </Border>
+            <Button Name="PART_ActionButton"
+						        HorizontalAlignment="Left"
+						        VerticalAlignment="Center"
+						        HorizontalContentAlignment="Center"
+						        VerticalContentAlignment="Center"
+						        Width="35"
+						        Grid.Row="1">
+            </Button>
+            <TransitioningContentControl Grid.Row="1" Name="PART_Header" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <TransitioningContentControl Grid.Row="1" Name="PART_Items" HorizontalAlignment="Right" VerticalAlignment="Center" />
+          </Grid>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="NavigationPage">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel>
+          <Grid RowDefinitions="Auto,*,Auto">
+            <Border BoxShadow="{TemplateBinding BoxShadow}">
+              <NavigationBar Name="PART_NavigationBar" HasSideMenuOption="False"
+                             TopSafePadding="{TemplateBinding TopSafePadding}"
+                             TopSafeSpace="{TemplateBinding TopSafeSpace}"
+                             ApplyTopSafePadding="{TemplateBinding ApplyTopSafePadding}"/>
+            </Border>
+            <StackContentView Name="PART_ContentView" Grid.Row="1" 
+                              PageTransition="{TemplateBinding DefaultPageTransition}">              
+            </StackContentView>
+            
+            <Border Grid.Row="2" IsVisible="{TemplateBinding ApplyBottomSafePadding}"
+                    Height="{TemplateBinding BottomSafeSpace}">
+              <Border.Styles>
+                <Style Selector="Border[IsVisible=True]">
+                  <Setter Property="RenderTransform" Value="scaleY(1)"></Setter>
+                </Style>
+                <Style Selector="Border[IsVisible=False]">
+                  <Setter Property="RenderTransform" Value="scaleY(0)"></Setter>
+                </Style>
+              </Border.Styles>
+            </Border>
+          </Grid>
+
+          <Rectangle Name="PART_ModalBackground" IsVisible="{Binding ElementName=PART_Modal, Path=HasContent}" Opacity="0.5" >
+            <Rectangle.Fill>
+              <VisualBrush
+								TileMode="Tile"
+								SourceRect="0,0,8,8"
+								DestinationRect="0,0,8,8"
+								Stretch="UniformToFill">
+                <VisualBrush.Visual>
+                  <Canvas Width="8" Height="8">
+                    <Rectangle Fill="Black" Width="8" Height="8"></Rectangle>
+                    <!--<Line StartPoint="0,0" EndPoint="8,8" Stroke="#55555555" StrokeThickness="1" />
+                    <Line StartPoint="0,8" EndPoint="8,0" Stroke="#55555555" StrokeThickness="1" />-->
+                  </Canvas>
+                </VisualBrush.Visual>
+              </VisualBrush>
+            </Rectangle.Fill>
+          </Rectangle>
+
+          <StackContentView Name="PART_Modal" IsVisible="{Binding ElementName=PART_Modal, Path=HasContent}">
+          </StackContentView>
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="Button.BackButton">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Viewbox Stretch="UniformToFill">
+          <Canvas Width="16" Height="16" Margin="5" Background="#00000000">
+            <Line StartPoint="7,2" EndPoint="2,7" StrokeThickness="2" Stroke="{DynamicResource ButtonForeground}"></Line>
+            <Line StartPoint="2,6" EndPoint="6,12" StrokeThickness="2" Stroke="{DynamicResource ButtonForeground}"></Line>
+          </Canvas>
+        </Viewbox>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="Button.SideMenuButton">
+    <Setter Property="RenderTransform" Value="rotate(180deg)" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Viewbox Stretch="UniformToFill">
+          <Canvas Width="16" Height="16" Margin="5" Background="#00000000">
+            <Line StartPoint="1,4" EndPoint="15,4" StrokeThickness="3" Stroke="{DynamicResource ButtonForeground}"></Line>
+            <Line StartPoint="1,8" EndPoint="15,8" StrokeThickness="3" Stroke="{DynamicResource ButtonForeground}"></Line>
+            <Line StartPoint="1,12" EndPoint="15,12" StrokeThickness="3" Stroke="{DynamicResource ButtonForeground}"></Line>
+          </Canvas>
+        </Viewbox>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>

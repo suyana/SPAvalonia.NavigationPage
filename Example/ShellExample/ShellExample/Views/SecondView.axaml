@@ -1,0 +1,19 @@
+<Page xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ShellExample.Views.SecondView"
+             Width="400"
+             Height="250"
+             NavigationBar.Header="Second view">
+  <Border Background="White" CornerRadius="5">
+    <StackPanel>
+        <TextBlock Text="Welcome to Avalonia!"></TextBlock>
+        <TextBlock Text="{Binding Argument}"></TextBlock>
+        <Button Content="Back" HorizontalAlignment="Center" Margin="30" Command="{Binding BackCommand}"></Button>
+    </StackPanel>
+  </Border>
+
+</Page>
+
