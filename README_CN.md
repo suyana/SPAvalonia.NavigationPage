@@ -1,5 +1,7 @@
 <h1>SPAvalonia.NavigationPage</h1>
 
+[中文](README_CN.md) /  [英文](README.md)
+
 ## 项目说明
 本项目基于：AvaloniaInside.Shell([https://github.com/AvaloniaInside/Shell](https://github.com/AvaloniaInside/Shell))项目修改而来，因修改内容较多，就没有提交到原仓库。  
 本项目提供类似Xamarin/Maui的NavigationPage页。Shell页后续可能会提供吧（目前没用到且刚入门Avalonia，先做个App测试下）
