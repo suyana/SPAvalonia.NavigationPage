@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Controls;
+using Avalonia.Threading;
 using SPAvalonia.NavigationPage.Platform;
 
 namespace SPAvalonia.NavigationPage;
@@ -123,19 +124,24 @@ public class StackContentView : ItemsControl {
 
     public object? CurrentView => Items.LastOrDefault();
 
-    public async Task PushViewAsync(object view,
-        NavigateType navigateType,
-        CancellationToken cancellationToken = default) {
+    public async Task PushViewAsync(object view,NavigateType navigateType,CancellationToken cancellationToken = default) {
+        //////修复当使用Replace时返回，界面空白的问题begin
+        if (CurrentView != null && CurrentView == view && navigateType == NavigateType.Pop) {
+            Items.Add(new StackPanel());
+        }
+        ////修复当使用Replace时返回，界面空白的问题end
+
         await _semaphoreSlim.WaitAsync(cancellationToken);
         try {
             var current = CurrentView;
 
-            if (current != null && current == view) return;
+            if (current != null && current == view) {               
+                return;
+            }
             if (view is not Control control) return;
 
             // Bring to front if exists in collection
-            if (Items.Contains(control))
-                Items.Remove(control);
+            if (Items.Contains(control))Items.Remove(control);
             Items.Add(control);
 
             UpdateCurrentView(current, control, navigateType, false);
@@ -151,8 +157,7 @@ public class StackContentView : ItemsControl {
         //TODO: Apply specific animation type
     }
 
-    public async Task<bool> RemoveViewAsync(object view, NavigateType navigateType,
-        CancellationToken cancellationToken) {
+    public async Task<bool> RemoveViewAsync(object view, NavigateType navigateType,CancellationToken cancellationToken) {
         await _semaphoreSlim.WaitAsync(cancellationToken);
         try {
             if (!Items.Contains(view)) return false;

@@ -17,7 +17,7 @@ public interface INavigationRegistrar {
 }
 
 public class NavigationRegistrar : INavigationRegistrar {
-    private Dictionary<string, NavigationNode> Navigations { get; } = new();
+    private Dictionary<string, NavigationNode> Navigations { get; } = new(StringComparer.OrdinalIgnoreCase);
     private INavigationViewLocator viewLocator;
 
     void checkRouteExists(string route) {
@@ -52,7 +52,7 @@ public class NavigationRegistrar : INavigationRegistrar {
         Navigations[route] = node;
     }
 
-    public bool TryGetNode(string path, out NavigationNode node) => Navigations.TryGetValue(path.ToLower(), out node);
+    public bool TryGetNode(string path, out NavigationNode node) => Navigations.TryGetValue(path, out node);
     public string? GetFirstNodeRoute() {
         return Navigations.Keys.FirstOrDefault();
     }

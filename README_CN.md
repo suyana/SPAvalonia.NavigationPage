@@ -1,6 +1,6 @@
 <h1>SPAvalonia.NavigationPage</h1>
 
-[中文](README_CN.md) /  [英文](README.md)
+[中文](README_CN.md) /  [English](README.md)
 
 ## 项目说明
 本项目基于：AvaloniaInside.Shell([https://github.com/AvaloniaInside/Shell](https://github.com/AvaloniaInside/Shell))项目修改而来，因修改内容较多，就没有提交到原仓库。  

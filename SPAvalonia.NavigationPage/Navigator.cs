@@ -127,7 +127,7 @@ public partial class Navigator : INavigator {
         CancellationToken cancellationToken = default) {
 
         if (Registrar.TryGetNode(vm.Route, out var tmp) == false) {
-            Registrar.RegistrarViewModel(vm,navigateType??NavigateType.Normal);
+            Registrar.RegistrarViewModel(vm,NavigateType.Normal);//修改为强制注册为Normal，否则如果初次调用是Replace后续也会是Replace
         }
         Registrar.SetViewModel(vm.Route, vm);
         return NavigateAsync(vm.Route, navigateType, argument, sender, withAnimation, overrideTransition, cancellationToken);
@@ -137,7 +137,7 @@ public partial class Navigator : INavigator {
         IPageTransition? overrideTransition = null, CancellationToken cancellationToken = default) {
 
         if (Registrar.TryGetNode(vm.Route, out var tmp) == false) {
-            Registrar.RegistrarViewModel(vm, navigateType ?? NavigateType.Normal);
+            Registrar.RegistrarViewModel(vm, NavigateType.Normal);//修改为强制注册为Normal，否则如果初次调用是Replace后续也会是Replace
         }
         Registrar.SetViewModel(vm.Route,vm);
         return NavigateAndWaitAsync(vm.Route,navigateType, argument, argument!=null, sender, withAnimation, overrideTransition,

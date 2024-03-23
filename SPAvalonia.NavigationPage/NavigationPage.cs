@@ -64,7 +64,7 @@ public partial class NavigationPage : TemplatedControl {
     #endregion
 
 
-    #region ClickAway
+    #region BoxShadow
 
     public static DirectProperty<NavigationPage, BoxShadows> BoxShadowProperty =
         AvaloniaProperty.RegisterDirect<NavigationPage, BoxShadows>(
@@ -74,7 +74,7 @@ public partial class NavigationPage : TemplatedControl {
 
     #endregion
 
-    #region ClickAway
+    #region CloseOnClickAway
 
     public static DirectProperty<NavigationPage, bool> CloseOnClickAwayProperty =
         AvaloniaProperty.RegisterDirect<NavigationPage, bool>(

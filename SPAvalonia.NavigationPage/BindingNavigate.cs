@@ -7,30 +7,30 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace SPAvalonia.NavigationPage
+namespace SPAvalonia.NavigationPage;
+
+[TypeConverter(typeof(BindingNavigateConverter))]
+public class BindingNavigate : AvaloniaObject, ICommand
 {
-    [TypeConverter(typeof(BindingNavigateConverter))]
-    public class BindingNavigate : AvaloniaObject, ICommand
+    private bool _singletonCanExecute = true;
+    private EventHandler? _singletonCanExecuteChanged;
+
+    public AvaloniaObject? Sender { get; internal set; }
+    public string Path { get; set; }
+    public NavigateType? Type { get; set; }
+    public IPageTransition? Transition { get; set; }
+
+    public event EventHandler? CanExecuteChanged
     {
-        private bool _singletonCanExecute = true;
-        private EventHandler? _singletonCanExecuteChanged;
+        add => _singletonCanExecuteChanged += value;
+        remove => _singletonCanExecuteChanged -= value;
+    }
 
-        public AvaloniaObject? Sender { get; internal set; }
-        public string Path { get; set; }
-        public NavigateType? Type { get; set; }
-        public IPageTransition? Transition { get; set; }
+    public bool CanExecute(object? parameter) => _singletonCanExecute;
+    public void Execute(object? parameter) => ExecuteAsync(parameter, CancellationToken.None);
 
-        public event EventHandler? CanExecuteChanged
-        {
-            add => _singletonCanExecuteChanged += value;
-            remove => _singletonCanExecuteChanged -= value;
-        }
-
-        public bool CanExecute(object? parameter) => _singletonCanExecute;
-        public void Execute(object? parameter) => ExecuteAsync(parameter, CancellationToken.None);
-
-        public async Task ExecuteAsync(object? parameter, CancellationToken cancellationToken)
-        {
+    public async Task ExecuteAsync(object? parameter, CancellationToken cancellationToken)
+    {
             if (Sender is not Visual visual) return;
             if (visual.FindAncestorOfType<NavigationPage>() is not { } shell) return;
 
@@ -63,9 +63,8 @@ namespace SPAvalonia.NavigationPage
             }
         }
 
-        public static implicit operator BindingNavigate(string path) => new BindingNavigate
-        {
-            Path = path
-        };
-    }
+    public static implicit operator BindingNavigate(string path) => new BindingNavigate
+    {
+        Path = path
+    };
 }
